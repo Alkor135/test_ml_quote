@@ -9,8 +9,8 @@ def columns_change(df):
     Функция меняет заголовок полученного в аргументе dataframe.
     Убирает лишние символы (<, >)
     Приводит названия к нижнему регистру
-    :param df:
-    :return:
+    :param df: На вход получаем dataframe
+    :return: Возвращаем измененый dataframe
     """
     title_lst = df.columns.values  # Создаем список с названиями заголовков принятого в аргументе dataframe
     # В списке title_lst_new будут новые названия колонок
@@ -70,5 +70,9 @@ if __name__ == '__main__':
         df_quote = date_time_join(df_quote)  # Меняем индекс в dataframe на дату и время
         df_quote = columns_change(df_quote)  # Меняем названия колонок
         df_res = df_res.combine_first(df_quote)  # Слияние двух dataframe
-    print(df_res)
+
+    df_res['date'] = pd.to_numeric(df_res['date'], downcast='integer')
+    df_res['time'] = pd.to_numeric(df_res['time'], downcast='integer')
+    df_res['vol'] = pd.to_numeric(df_res['vol'], downcast='integer')
     df_res.to_csv(str(path_file_result), sep=';', index_label='date_time')
+    print(df_res)
