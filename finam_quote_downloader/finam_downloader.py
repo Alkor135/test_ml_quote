@@ -4,7 +4,6 @@
 Каждый день в своем файле
 Настройки внизу.
 """
-
 from urllib.parse import urlencode
 from urllib.request import urlopen
 from datetime import datetime

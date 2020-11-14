@@ -2,7 +2,6 @@
 """
 Добавление колонки, является ли бар профитным при заданных ТП и СЛ
 """
-
 import pandas as pd
 import numpy as np
 from pathlib import Path
