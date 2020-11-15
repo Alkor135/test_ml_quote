@@ -16,20 +16,18 @@ def prepare_df(df):
     """
     df['<TIME>'] = pd.to_datetime(df['<TIME>'], format='%H%M%S').dt.time  # Меняем тип поля '<TIME>'
     df = df.set_index(df['<TIME>'])  # Меняем индекс на '<TIME>'
-    # Удаляем ненужные колонки. 1 означает, что отбрасываем колонку а не индекс
-    df = df.drop('<TIME>', 1)
-    df = df.drop('<DATE>', 1)
-    df = df.drop('<OPEN>', 1)
-    df = df.drop('<CLOSE>', 1)
-    df = df.drop('<VOL>', 1)
+
+    # Удаляем ненужные колонки. axis=1 означает, что удаляем колонку
+    df = df.drop(['<TIME>', '<DATE>', '<OPEN>', '<CLOSE>', '<VOL>'], axis=1)
     return df
 
 
-if __name__ == '__main__':
-    dir_source = Path('c:/data_finam_quote_csv')  # Папка откуда берем csv файлы для обработки
-    file_mask = 'SPFB.RTS_5min_*.csv'  # Маска файлов, которые обрабатываем
-
-    file_lst = list(dir_source.glob(file_mask))  # Создаем список файлов которые будем обрабатывать
+def create_df_for_plot(file_lst):
+    """
+    Создает dataframe для построения графика экстремумов по времени
+    :param file_lst: Получает список файлов (по дням) для обработки
+    :return: Возвращает dataframe с экстремумами (частота экстремумом в определенное время)
+    """
     extremum_dic = {}  # Создаем словарь где будем подсчитывать экстремумы, ключами будет время
     for file in file_lst:  # Проходимся по списку файлов
         df_quote = pd.read_csv(file, delimiter=',')  # Загружаем файл в DF
@@ -51,8 +49,20 @@ if __name__ == '__main__':
 
     df = pd.DataFrame.from_dict(extremum_dic, orient='index', columns=['max', 'min'])  # Создаем df из словаря
     df.sort_index(inplace=True)  # Сортируем df по индексу (по времени)
+    return df
+
+
+if __name__ == '__main__':
+    dir_source = Path('c:/data_finam_quote_csv')  # Папка откуда берем csv файлы для обработки
+    file_mask = 'SPFB.RTS_5min_*.csv'  # Маска файлов, которые обрабатываем
+
+    file_lst = list(dir_source.glob(file_mask))  # Создаем список файлов которые будем обрабатывать
+    df = create_df_for_plot(file_lst)  # Создаем df для построения графика
+    # print(df)
+    print(df[max].sum)
+    # print(df.sum(df[max]))
 
     # Строим график в виде гистограммы
-    index = df.index
-    df.plot(kind='bar')
-    plt.show()
+    # index = df.index
+    # df.plot(kind='bar')
+    # plt.show()
