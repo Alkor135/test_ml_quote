@@ -59,7 +59,6 @@ if __name__ == '__main__':
         Path.mkdir(dir_result)  # Создаем папку куда положим обработанный файл
 
     path_file_result = create_file_name_result(file_mask)  # Создание имени результирующего файла
-    print(path_file_result)
 
     if not path_file_result.exists():  # Если результирующего файла не существует
         # Создаем пустой dataframe в который будем добавлять dataframe из прочитанных файлов (обработанные)
@@ -67,23 +66,16 @@ if __name__ == '__main__':
     else:
         # Читаем csv файл в dataframe
         df_res = pd.read_csv(str(path_file_result), delimiter=';', index_col='date_time')
-    print(df_res)
 
     file_lst = list(dir_source.glob(file_mask))  # Создаем список файлов которые будем обрабатывать
+
     for file in file_lst:
         df_quote = pd.read_csv(file, delimiter=',')  # Загружаем файл в DF
         df_quote = date_time_join(df_quote)  # Меняем индекс в dataframe на дату и время
         df_quote = columns_change(df_quote)  # Меняем названия колонок
 
-        df_quote['date'] = pd.to_numeric(df_res['date'], downcast='integer')  # Приведение типов
-        df_quote['time'] = pd.to_numeric(df_res['time'], downcast='integer')  # Приведение типов
-        df_quote['vol'] = pd.to_numeric(df_res['vol'], downcast='integer')  # Приведение типов
-
         df_res = df_res.combine_first(df_quote)  # Слияние двух dataframe
         # print(f'Обрабатывается файл {str(file)}')
 
-    df_res['date'] = pd.to_numeric(df_res['date'], downcast='integer')  # Приведение типов
-    df_res['time'] = pd.to_numeric(df_res['time'], downcast='integer')  # Приведение типов
-    df_res['vol'] = pd.to_numeric(df_res['vol'], downcast='integer')  # Приведение типов
     df_res.to_csv(str(path_file_result), sep=';', index_label='date_time')  # Сохранение dataframe в файл csv
     print(df_res)
