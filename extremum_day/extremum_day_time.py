@@ -5,6 +5,7 @@
 """
 import pandas as pd
 from pathlib import Path
+import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -59,10 +60,22 @@ if __name__ == '__main__':
     file_lst = list(dir_source.glob(file_mask))  # Создаем список файлов которые будем обрабатывать
     df = create_df_for_plot(file_lst)  # Создаем df для построения графика
     # print(df)
-    print(df[max].sum)
-    # print(df.sum(df[max]))
+
+    # percent = df.loc['max']['10:00'] + df.loc['min']['10:00']
+    # percent = df.loc['10:00']['max'] + df.loc['10:00']['min']
+    # print(percent)
+
+    # print(f"{df[['max']].count()=}")
+    # print(df.count())
+    # print(df[['max']].max())
+    # print(df[['max']].idxmax())
+    # print(df[['max']].min())
+    # print(df[['max']].idxmin())
 
     # Строим график в виде гистограммы
-    # index = df.index
-    # df.plot(kind='bar')
-    # plt.show()
+    index = df.index
+    df.plot(kind='bar')
+    plt.show()
+
+    # data = np.array(df['max'])
+    # print(data)
