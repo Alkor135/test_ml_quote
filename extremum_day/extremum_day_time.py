@@ -5,7 +5,6 @@
 """
 import pandas as pd
 from pathlib import Path
-import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -64,7 +63,7 @@ if __name__ == '__main__':
     # Запись в Excel
     # df.to_excel('example.xlsx')
 
-    sum_first_row = df.loc[df.index[0]].sum()  # Сумма 0 строки (в 10:00:00)
+    sum_first_row = df.loc[df.index[0]].sum()  # Сумма 0 строки (в 10:00:00) (количество мин и макс экстремумов)
     # print(f'Сумма 0 строки (в 10:00:00) {sum_first_row=}')
     # print(f'{df.sum().sum()=}')  # Сумма всех элементов DF
 
@@ -72,6 +71,5 @@ if __name__ == '__main__':
     print(f'Процент экстремумов в 10:00 {percent_first=}%')
 
     # Строим график в виде гистограммы
-    index = df.index
     df.plot(kind='bar')
     plt.show()
