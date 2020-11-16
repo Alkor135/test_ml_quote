@@ -61,21 +61,17 @@ if __name__ == '__main__':
     df = create_df_for_plot(file_lst)  # Создаем df для построения графика
     # print(df)
 
-    # percent = df.loc['max']['10:00'] + df.loc['min']['10:00']
-    # percent = df.loc['10:00']['max'] + df.loc['10:00']['min']
-    # print(percent)
+    # Запись в Excel
+    # df.to_excel('example.xlsx')
 
-    # print(f"{df[['max']].count()=}")
-    # print(df.count())
-    # print(df[['max']].max())
-    # print(df[['max']].idxmax())
-    # print(df[['max']].min())
-    # print(df[['max']].idxmin())
+    sum_first_row = df.loc[df.index[0]].sum()  # Сумма 0 строки (в 10:00:00)
+    # print(f'Сумма 0 строки (в 10:00:00) {sum_first_row=}')
+    # print(f'{df.sum().sum()=}')  # Сумма всех элементов DF
+
+    percent_first = sum_first_row / df.sum().sum() * 100  # Процент экстремумов в 10:00
+    print(f'Процент экстремумов в 10:00 {percent_first=}%')
 
     # Строим график в виде гистограммы
     index = df.index
     df.plot(kind='bar')
     plt.show()
-
-    # data = np.array(df['max'])
-    # print(data)
