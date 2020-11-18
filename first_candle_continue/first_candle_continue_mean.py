@@ -21,10 +21,10 @@ def mean_first_candles():
     # Оставляем в DF только строки соотретствующие открытию сесии (10:00)
     df = df.loc[df['time'] == 100000]
 
-    # Создаем новое поле 'abs_body_condle' куда записываем модуль разницы открытия и закрытия свечи
-    df['abs_body_condle'] = df.apply(lambda row: abs(row['open'] - row['close']), axis=1)  # axis=1 Указывает на колонку
+    # Создаем новое поле 'abs_body_candle' куда записываем модуль разницы открытия и закрытия свечи
+    df['abs_body_candle'] = df.apply(lambda row: abs(row['open'] - row['close']), axis=1)  # axis=1 Указывает на колонку
 
-    return df[['abs_body_condle']].mean()  # Возвращаем среднее
+    return df[['abs_body_candle']].mean()  # Возвращаем среднее
 
 
 def create_df_for_plot(files_lst):
