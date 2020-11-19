@@ -2,7 +2,7 @@
 """
 Отображает на графиках движение цены после первого бара (после 10:00 бара)
 Графики отдельные для понижающейся и повашающейся первой свечи с фильтром по среднему значению, т.е.
-для расчета берутся только свечи чье тело превышает среднее значение тел первых свечей.
+для расчета берутся только свечи чье тело менше среднего значение тел первых свечей.
 """
 import pandas as pd
 from pathlib import Path
@@ -54,7 +54,7 @@ def create_df_for_plot(files_lst):
         price_at_t0 = df.iloc[0, 5]  # Берем самое первое по времени значение <CLOSE> (к нему нормализуем)
         df[new_name_column] = df.apply(lambda row: row['<CLOSE>'] / price_at_t0, axis=1)  # axis=1 Указывает на колонку
 
-        if abs(df.iloc[0, 2] - df.iloc[0, 5]) > candle_first_mean:
+        if abs(df.iloc[0, 2] - df.iloc[0, 5]) < (candle_first_mean * 0.9):
             if df.iloc[0, 2] < df.iloc[0, 5]:  # Первая свеча на повышение (формируем df_up)
 
                 df_up = df_up.join(df[new_name_column], how='outer')  # Join с объединением ключей
@@ -92,8 +92,8 @@ if __name__ == '__main__':
     plt.title("RTS движение цены после первой повышающейся свечи М5 за 2020 с фильтром по среднему значению")
     for column in columns_lst_up:
         df_up[column].plot()
-    plt.axhline(y=1.02, color='black', linestyle='-')
-    plt.axhline(y=0.98, color='black', linestyle='-')
+    plt.axhline(y=1.025, color='black', linestyle='-', label='+2%')
+    plt.axhline(y=0.975, color='black', linestyle='-', label='-2%')
     plt.show()
 
     # Строим график
@@ -102,6 +102,6 @@ if __name__ == '__main__':
     plt.title("RTS движение цены после первой понижающейся свечи М5 за 2020 с фильтром по среднему значению")
     for column in columns_lst_down:
         df_down[column].plot()
-    plt.axhline(y=1.02, color='black', linestyle='-')
-    plt.axhline(y=0.98, color='black', linestyle='-')
+    plt.axhline(y=1.025, color='black', linestyle='-')
+    plt.axhline(y=0.975, color='black', linestyle='-')
     plt.show()
