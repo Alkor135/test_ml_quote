@@ -92,8 +92,8 @@ if __name__ == '__main__':
     plt.title("RTS движение цены после первой повышающейся свечи М5 за 2020 с фильтром по среднему значению")
     for column in columns_lst_up:
         df_up[column].plot()
-    plt.axhline(y=1.025, color='black', linestyle='-', label='+2%')
-    plt.axhline(y=0.975, color='black', linestyle='-', label='-2%')
+    plt.axhline(y=1.025, color='black', linestyle='-', label='+2,5%')
+    plt.axhline(y=0.975, color='black', linestyle='-', label='-2,5%')
     plt.show()
 
     # Строим график
