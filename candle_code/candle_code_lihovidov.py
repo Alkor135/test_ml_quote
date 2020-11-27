@@ -183,7 +183,7 @@ class CandleCode:
 if __name__ == '__main__':
     dir_source = 'c:/data_prepare_quote_csv'  # Папка откуда берем csv файл для обработки
     file_source = 'SPFB.RTS_5min.csv'  # Исходный файл
-    start_date = '2020-09-01'  # С какой даты будем строить DF с кодами свечей
+    start_date = '2020-01-01'  # С какой даты будем строить DF с кодами свечей
     day_delta = 365  # Дельта в днях для расчета показателей (большой, средний, маленький). Предшествует start_date
 
     code = CandleCode(start_date, day_delta, dir_source, file_source)
