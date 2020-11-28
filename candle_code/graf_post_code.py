@@ -47,7 +47,7 @@ def candle_code_graf(df, candlestik_code):
     plt.axhline(y=1.01, color='black', linestyle='-')
     plt.axhline(y=1.00, color='blue', linestyle='-')
     plt.axhline(y=0.99, color='black', linestyle='-')
-    plt.savefig(f'c:\data_prepare_quote_csv\pic\{candlestik_code}.png')
+    plt.savefig(f'c:/data_prepare_quote_csv/pic/{candlestik_code}.png')
     # plt.show()
 
 
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     # count_candle = 20
 
     # Загружаем файл с разделителем ',' в DF
-    df = pd.read_csv('c:\data_prepare_quote_csv\SPFB.RTS_5min_2020-09-01_2020-11-10_lihovidov.csv', delimiter=',')
+    df = pd.read_csv('c:/data_prepare_quote_csv/SPFB.RTS_5min_2020-09-01_2020-11-10_lihovidov.csv', delimiter=',')
     # Меняем индекс и делаем его типом datetime
     df = df.set_index(pd.to_datetime(df['date_time'], format='%Y-%m-%d %H:%M:%S'))
     df = df.drop('date_time', axis=1)  # Удаляем колонку с датой и временем, т.к. дата-время у нас теперь в индексе
