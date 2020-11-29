@@ -81,6 +81,9 @@ class CandleCode:
             # Создаем DF предшествующий текущей строке
             previous_df = self.df.loc[start_previous_df.strftime("%Y-%m-%d"): end_previous_df.strftime("%Y-%m-%d")]
             previous_df = previous_df.loc[index.time()]  # Оставляем только строки соответствующие времени тек. строки
+            # print(previous_df.shape)
+            if previous_df.shape[0] == 0:  # Защита от отсутствия данных за передыдущий период
+                continue
 
             percentile_dic = self.prev_df_to_dic_code(previous_df)  # Получаем словарь перцентилей
 
@@ -89,11 +92,9 @@ class CandleCode:
             if row['open'] > row['close']:  # Свеча на понижение (медвежья)
                 code_str += '0'
                 # Для тела медвежьей свечи
-                if row['open'] - row['close'] > percentile_dic[
-                    'candle_body_66']:  # 00 - медвежья свеча с телом больших размеров
+                if row['open'] - row['close'] > percentile_dic['candle_body_66']:  # 00 - медвежья свеча с боль. телом
                     code_str += '00'
-                elif row['open'] - row['close'] > percentile_dic[
-                    'candle_body_33']:  # 01 - медвежья свеча с телом средних размеров
+                elif row['open'] - row['close'] > percentile_dic['candle_body_33']:  # 01 - медвежья свеча со ср. телом
                     code_str += '01'
                 elif row['open'] - row['close'] > 0:  # 10 - медвежья свеча с телом небольших размеров
                     code_str += '10'
@@ -120,8 +121,7 @@ class CandleCode:
             elif row['open'] < row['close']:  # Свеча на повышение (бычья)
                 code_str += '1'
                 # Для тела бычьей свечи
-                if row['close'] - row['open'] > percentile_dic[
-                    'candle_body_66']:  # 11 - бычья свеча с телом больших размеров.
+                if row['close'] - row['open'] > percentile_dic['candle_body_66']:  # 11 - бычья свеча с боль. телом.
                     code_str += '11'
                 elif row['close'] - row['open'] > percentile_dic[
                     'candle_body_33']:  # 10 - бычья свеча с телом средних размеров
@@ -157,8 +157,7 @@ class CandleCode:
                     # Для верхней тени дожи
                 if row['high'] - row['close'] > percentile_dic['shadow_high_66']:  # 11 - верхняя тень больших размеров
                     code_str += '11'
-                elif row['high'] - row['close'] > percentile_dic[
-                    'shadow_high_33']:  # 10 - верхняя тень средних размеров
+                elif row['high'] - row['close'] > percentile_dic['shadow_high_33']:  # 10 - верхняя тень сред. размеров
                     code_str += '10'
                 elif row['high'] - row['close'] > 0:  # 01 - верхняя тень небольших размеров
                     code_str += '01'

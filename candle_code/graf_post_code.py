@@ -40,13 +40,13 @@ def candle_code_graf(df, candlestik_code):
 
     plt.figure(figsize=(19, 9))
 
-    plt.title(f"RTS движение цены после свечи М5 с кодом по Лиховидову {candlestik_code}")
+    plt.title(f"RTS движение цены после свечи М5 с кодом по Лиховидову {int(candlestik_code)}")
     for column in columns_lst:
         df_graf[column].plot()
     plt.axhline(y=1.01, color='black', linestyle='-')
     plt.axhline(y=1.00, color='blue', linestyle='-')
     plt.axhline(y=0.99, color='black', linestyle='-')
-    plt.savefig(f'c:/data_prepare_quote_csv/pic/{candlestik_code}.png')
+    plt.savefig(f'c:/data_prepare_quote_csv/pic/{int(candlestik_code)}.png')
     # plt.show()
 
 
