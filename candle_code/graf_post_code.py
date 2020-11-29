@@ -28,9 +28,8 @@ def candle_code_graf(df, candlestik_code):
         # print(df_posl)
 
         price_at_t0 = df_posl.iloc[0, 5]  # Берем самое первое по времени значение (к нему нормализуем)
-        df_posl[index] = df_posl.apply(lambda row: row['close'] / price_at_t0, axis=1)  # axis=1 Указывает на колонку
-        # df_posl.reset_index(inplace=True)
-        df_posl.reset_index(drop=True, inplace=True)
+        df_posl[index] = df_posl.apply(lambda row: row['close'] / price_at_t0, axis=1)  # Нормализация
+        df_posl.reset_index(drop=True, inplace=True)  # Перезаписываем индекс простой последовательностью
 
         df_graf = df_graf.join(df_posl[index], how='outer')  # Join с объединением ключей)
 
