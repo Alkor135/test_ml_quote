@@ -108,14 +108,13 @@ class DownloadFinam:
 
 
 if __name__ == "__main__":
-
     """ 
     Основные настройки параметров загрузки котировок.
     Проверьте наличие тикера в файле settings.py
     """
     path_data = 'c:/data_finam_quote_csv'  # Папка для сохранения файлов котировок (папка c:/data_finam_csv)
     ticker = "SPFB.RTS"  # задаём тикер
-    period = 3  # задаём период. Выбор из: 'tick': 1, 'min': 2, '5min': 3, '10min': 4, '15min': 5, '30min': 6, 'hour': 7
+    period = 1  # задаём период. Выбор из: 'tick': 1, 'min': 2, '5min': 3, '10min': 4, '15min': 5, '30min': 6, 'hour': 7
     start = "01.01.2019"  # с какой даты начинать тянуть котировки
     end = "01.01.2020"  # финальная дата, по которую тянуть котировки
     market = 14  # FUTURES = 14  non-expired futures; АКЦИИ = 0
