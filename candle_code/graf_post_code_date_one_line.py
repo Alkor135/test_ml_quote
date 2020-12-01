@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Читает файл csv с кодировкой по Лиховидову в DataFrame.
-Строит графики движения цены после выбранного кода за заданные даты.
+Строит график движения цены после выбранного кода за заданные даты.
+График один - суммирующий
 """
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -45,27 +46,33 @@ def candle_code_graf(df, candlestik_code, month):
         df_graf = df_graf.join(df_posl[index], how='outer')  # Join с объединением ключей)
         # print(df_graf)
         # break
+    df_graf['summa'] = df_graf.sum(axis=1)
 
-    # print(df_graf)
+    # df_graf.index.names = ['index']
+    # # print(df_graf)
+    # df_graf.to_csv(f'c:/data_prepare_quote_csv/graf_{int(candlestik_code)}.csv', columns=['summa'], header=month)
+    # df_tmp = pd.read_csv('c:\data_prepare_quote_csv\graf_0.csv', index_col='index')
+    # print(df_tmp)
 
     # Строим график
-    columns_lst = list(df_graf.columns)
+    # columns_lst = list(df_graf.columns)
 
     plt.figure(figsize=(19, 9))
 
     plt.title(f"RTS движение цены после свечи М5 за {month} с кодом по Лиховидову {int(candlestik_code)}")
-    for column in columns_lst:
-        df_graf[column].plot()
+    # for column in columns_lst:
+    #     df_graf[column].plot()
+    df_graf['summa'].plot()
     plt.axhline(y=0.01, color='black', linestyle='-')
     plt.axhline(y=0.00, color='blue', linestyle='-')
     plt.axhline(y=-0.01, color='black', linestyle='-')
-    plt.savefig(f'c:/data_prepare_quote_csv/pic/{int(candlestik_code)}_{month}.png')
+    plt.savefig(f'c:/data_prepare_quote_csv/pic/{int(candlestik_code)}_{month}_one_line.png')
     # plt.show()
     plt.close()
 
 
 if __name__ == '__main__':
-    month = '2020-01'  # Месяц за который создаем картинки
+    month = '2020-04'  # Месяц за который создаем картинки
 
     # Загружаем файл с разделителем ',' в DF
     # df = pd.read_csv('c:/data_prepare_quote_csv/SPFB.RTS_5min_2020-09-01_2020-11-10_lihovidov.csv', delimiter=',')
