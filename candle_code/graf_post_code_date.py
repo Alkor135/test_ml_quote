@@ -35,7 +35,7 @@ def candle_code_graf(df, candlestik_code, month):
         # break
 
         # В DF df_posl создаем новое поле с датой и временем из index и туда пишем нормализованные цены close
-        df_posl[index] = df_posl.apply(lambda row: row['close'] / close_t0, axis=1)
+        df_posl[index] = df_posl.apply(lambda row: row['close'] / close_t0 - 1, axis=1)
         # Перезаписываем индекс простой последовательностью для слияния
         df_posl.reset_index(drop=True, inplace=True)
         # print(df_posl)
@@ -56,16 +56,16 @@ def candle_code_graf(df, candlestik_code, month):
     plt.title(f"RTS движение цены после свечи М5 за {month} с кодом по Лиховидову {int(candlestik_code)}")
     for column in columns_lst:
         df_graf[column].plot()
-    plt.axhline(y=1.01, color='black', linestyle='-')
-    plt.axhline(y=1.00, color='blue', linestyle='-')
-    plt.axhline(y=0.99, color='black', linestyle='-')
+    plt.axhline(y=0.01, color='black', linestyle='-')
+    plt.axhline(y=0.00, color='blue', linestyle='-')
+    plt.axhline(y=-0.01, color='black', linestyle='-')
     plt.savefig(f'c:/data_prepare_quote_csv/pic/{int(candlestik_code)}_{month}.png')
     # plt.show()
     plt.close()
 
 
 if __name__ == '__main__':
-    month = '2020-11'  # Месяц за который создаем картинки
+    month = '2020-01'  # Месяц за который создаем картинки
 
     # Загружаем файл с разделителем ',' в DF
     # df = pd.read_csv('c:/data_prepare_quote_csv/SPFB.RTS_5min_2020-09-01_2020-11-10_lihovidov.csv', delimiter=',')
